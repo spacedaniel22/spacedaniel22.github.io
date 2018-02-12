@@ -1,0 +1,44 @@
+$dark: lighten(black, 20%);
+$yellow: darken(lightgoldenrodyellow, 22%);
+
+@mixin container($width) {
+    max-width: $width;
+	margin: 0 auto;
+}
+
+%backgroundImg {
+    position: relative;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+}
+
+.App {
+    text-align: center;
+}
+
+.header {
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: $dark;
+    padding: 1.3em;
+    color: white;
+    .title {
+        margin: 0;
+        font-size: 2.5em;
+    }
+}
