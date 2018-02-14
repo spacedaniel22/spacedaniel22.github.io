@@ -3,13 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
 class SearchResult extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: false
-        }
-    }
-
     render() {
         const { results } = this.props;
         return (
