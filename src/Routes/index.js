@@ -12,7 +12,7 @@ import NoMatch from "../components/NoMatch";
 export default () => (
     <Router>
         <Switch>
-            <Route exact path="/" component={ Search } />
+            <Route exact path="/" render={props => <Search {...props}/> } />
             <Route path="/detail/:id" component={ BookDetail } />
             <Route component={ NoMatch } />
         </Switch>
