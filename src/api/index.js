@@ -12,7 +12,7 @@ export const config = {
 
 export const search = (param = "") => {
     const term = param.split(" ").join("+");
-    return fetch(`${config.baseUrl}${config.searchUrl}${config.searchField}${term}`, {
+    return fetch(`${config.baseUrl}${config.searchUrl}${config.searchField}${term}${config.key}`, {
         method: "GET",
     })
     .then(resp => resp.json())

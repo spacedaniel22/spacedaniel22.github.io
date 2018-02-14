@@ -15,16 +15,26 @@ class Search extends Component {
         this.state = initialState;
         this.handleSearch = this.handleSearch.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentWillMount() {
-        console.log(this.props);
+    componentDidMount() {
+        if (this.props.match.params.term) {
+            this.setState({ ...initialState, term: this.props.match.params.term });
+        };
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.term !== this.state.term
+            && this.state.term
+            && (prevState.term.length > 1 || prevProps.match.params.term)) {
+            this.handleSearch();
+        }
     }
 
     handleChange = (e) => {
         this.setState({ ...initialState, term: e.target.value });
-        this.handleSearch();
-        e.preventDefault();
+        this.props.history.replace(`/search/${e.target.value}`);
     }
 
     handleSearch() {
@@ -38,24 +48,28 @@ class Search extends Component {
             });
     }
 
+    handleSubmit(e) {
+        e.preventDefault();
+    }
+
     render() {
-        const { results, term, errorMessage } = this.state;
+        const { results, errorMessage } = this.state;
         let searchResults = null;
         if (results) {
-            searchResults = <SearchResult results={results}/>
+            searchResults = <SearchResult results={this.state.results}/>
         } else if (errorMessage) {
             searchResults = <h3 className="error-message">{errorMessage}</h3>
         }
         return (
             <section>
-                <form className="search" autoComplete="off">
+                <form className="search" autoComplete="off" onSubmit={this.handleSubmit}>
                     <input type="text"
-                        value={term}
+                        value={this.state.term}
                         name="search"
                         className="search"
                         onChange={this.handleChange} />
-                    {/* <input type="submit" value="Search" className="button" /> */}
                 </form>
+                {this.state.term}
                 { searchResults }
             </section>
         );

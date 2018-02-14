@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
 class SearchResult extends Component {
@@ -15,7 +16,7 @@ class SearchResult extends Component {
                 <div className="search-result">
                     { Object.keys(this.props.results).map(i => {
                         let book = results[i];
-                        return <Link to={`detail/${book.id}`} key={book.id}>
+                        return <Link to={`/detail/${book.id}`} key={book.id}>
                             <div className="search-result-item">
                                 <h3 className="title">{book.title}</h3>
                                 { Object.keys(book.authors).map(idx =>
@@ -27,6 +28,10 @@ class SearchResult extends Component {
                 </div>
         );
     }
+}
+
+SearchResult.propTypes = {
+    results: PropTypes.array.isRequired
 }
 
 export default SearchResult;
