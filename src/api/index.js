@@ -2,17 +2,19 @@ export const config = {
     baseUrl: "https://www.googleapis.com/books/v1",
     searchUrl: "/volumes?q=",
     searchField: "intitle:",
-    key: "&key=AIzaSyCX89VjwhUTAvNjf4a1bMKChClukfE0M7Q",
+    bookDetailUrl: "/volumes/",
+    key: "key=AIzaSyCX89VjwhUTAvNjf4a1bMKChClukfE0M7Q",
     error: {
         notFound: true,
         message: "Book not found"
     },
-    unknownAuthors: ["Unknown"]
+    unknownAuthors: ["Unknown"],
+    missingDescription: "Missing Description"
 }
 
 export const search = (param = "") => {
     const term = param.split(" ").join("+");
-    return fetch(`${config.baseUrl}${config.searchUrl}${config.searchField}${term}${config.key}`, {
+    return fetch(`${config.baseUrl}${config.searchUrl}${config.searchField}${term}&${config.key}`, {
         method: "GET",
     })
     .then(resp => resp.json())
@@ -22,6 +24,21 @@ export const search = (param = "") => {
             authors: book.volumeInfo.authors || config.unknownAuthors,
             title: book.volumeInfo.title
         })) : config.error;
+    })
+    .catch(error => console.log(error));
+}
+
+export const getBookDetail = (id) => {
+    return fetch(`${config.baseUrl}${config.bookDetailUrl}${id}?${config.key}`, {
+        method: "GET",
+    })
+    .then(resp => resp.json())
+    .then(json => {
+        const bookInfo = json.volumeInfo;
+        return !json.errors ?  {
+            description: bookInfo.description || config.missingDescription,
+            imageLink: bookInfo.imageLinks.smallThumbnail
+        } : config.error;
     })
     .catch(error => console.log(error));
 }

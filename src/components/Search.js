@@ -61,15 +61,14 @@ class Search extends Component {
             searchResults = <h3 className="error-message">{errorMessage}</h3>
         }
         return (
-            <section>
-                <form className="search" autoComplete="off" onSubmit={this.handleSubmit}>
+            <section className="search-page">
+                <form className="search-form" autoComplete="off" onSubmit={this.handleSubmit}>
                     <input type="text"
                         value={this.state.term}
                         name="search"
-                        className="search"
+                        className="search-input"
                         onChange={this.handleChange} />
                 </form>
-                {this.state.term}
                 { searchResults }
             </section>
         );
