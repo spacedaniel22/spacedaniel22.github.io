@@ -35,9 +35,13 @@ export const getBookDetail = (id) => {
     .then(resp => resp.json())
     .then(json => {
         const bookInfo = json.volumeInfo;
+        const bookImageLinks = bookInfo.imageLinks;
         return !json.errors ?  {
+            id: json.id,
+            title: bookInfo.title,
+            authors: bookInfo.authors || config.unknownAuthors,
             description: bookInfo.description || config.missingDescription,
-            imageLink: bookInfo.imageLinks.smallThumbnail
+            imageLink: bookImageLinks.medium || bookImageLinks.small || bookImageLinks.thumbnail || bookImageLinks.smallThumbnail
         } : config.error;
     })
     .catch(error => console.log(error));

@@ -11,7 +11,7 @@ class SearchResult extends Component {
                         let book = results[i];
                         return (
                             <Link
-                                to={{ pathname: `/detail/${book.id}`,state: { title: book.title, authors: book.authors } }}
+                                to={`/detail/${book.id}` }
                                 key={book.id}>
 
                                 <div className="search-result-item">

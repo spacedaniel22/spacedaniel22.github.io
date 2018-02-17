@@ -51,10 +51,11 @@ input {
 .search {
 
     &-page {
+        position: relative;
         display: flex;
         font-size: 1.2em;
 
-        & > * {
+        & > [class^="search-"] {
             flex: 0 0 50%;
         }
     }
@@ -112,4 +113,21 @@ input {
         @include container(11em);
         @extend %backgroundImg;
     }
+
+    &-name {
+        font-size: 1.4em;
+    }
+
+    &-author {
+        display: inline-block;
+        margin-bottom: 1em;
+        font-size: 1.3em;
+        font-style: italic;
+    }
+}
+
+.basket {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
