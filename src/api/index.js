@@ -9,7 +9,8 @@ export const config = {
         message: "Book not found"
     },
     unknownAuthors: ["Unknown"],
-    missingDescription: "Missing Description"
+    missingDescription: "Missing Description",
+    fallbackImage: "https://genderstudies.indiana.edu/images/publications/book-cover-placeholder.jpg"
 }
 
 export const search = (param = "") => {
@@ -35,13 +36,14 @@ export const getBookDetail = (id) => {
     .then(resp => resp.json())
     .then(json => {
         const bookInfo = json.volumeInfo;
-        const bookImageLinks = bookInfo.imageLinks;
+        const imageLinks = bookInfo.imageLinks;
+        const coverImage = imageLinks ? imageLinks.medium || imageLinks.thumbnail || imageLinks.small : config.fallbackImage;
         return !json.errors ?  {
             id: json.id,
             title: bookInfo.title,
             authors: bookInfo.authors || config.unknownAuthors,
             description: bookInfo.description || config.missingDescription,
-            imageLink: bookImageLinks.medium || bookImageLinks.small || bookImageLinks.thumbnail || bookImageLinks.smallThumbnail
+            imageLink:  coverImage
         } : config.error;
     })
     .catch(error => console.log(error));

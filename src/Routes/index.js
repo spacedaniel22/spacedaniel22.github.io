@@ -20,6 +20,28 @@ class Routes extends Component {
         this.state = initialState;
         this.addItem = this.addItem.bind(this);
         this.removeItem = this.removeItem.bind(this);
+        this.basketAction = this.basketAction.bind(this);
+    }
+
+    componentDidMount() {
+        const cached = localStorage.getItem("basket");
+        if (cached) {
+            this.setState({ addedToBasket: JSON.parse(cached) })
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.addedToBasket !== prevState.addedToBasket) {
+            localStorage.setItem("basket", JSON.stringify(this.state.addedToBasket));
+        }
+    }
+
+    basketAction(book) {
+        if (book.isAdded) {
+            this.removeItem(book.id);
+        } else {
+            this.addItem(book);
+        }
     }
 
     addItem(item) {
@@ -38,12 +60,12 @@ class Routes extends Component {
     render () {
         return (
             <main>
-                <Basket content={this.state.addedToBasket} removeItem={this.removeItem} />
+                <Basket content={this.state.addedToBasket} />
                 <Router>
                     <Switch>
                         <Route exact path="/" render={props => <Search {...props}/> } />
                         <Route path="/search/:term?" render={props => <Search {...props}/> } />
-                        <Route path="/detail/:id" render={props => <BookDetail {...props} addToBasket={this.addItem} /> } />
+                        <Route path="/detail/:id" render={props => <BookDetail {...props} basketAction={this.basketAction} basketContent={this.state.addedToBasket} /> } />
                         <Route component={ NoMatch } />
                     </Switch>
                 </Router>

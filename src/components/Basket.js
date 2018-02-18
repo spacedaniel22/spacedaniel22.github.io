@@ -10,13 +10,14 @@ class Basket extends Component {
     render() {
         let content = null;
         if (this.props.content.length === 0) {
-            content = <span>empty</span>
+            content = <i>empty</i>
         } else {
             content = Object.keys(this.props.content).map(i =>
             <BasketItem key={i} id={this.props.content[i].id} title={this.props.content[i].title} removeItem={this.removeItem.bind(this)} />)
         }
         return (
             <div className="basket">
+                <span>Basket</span>
                 {content}
             </div>
         )
